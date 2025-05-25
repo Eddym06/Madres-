@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dedicatoria Especial para Mamá</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      height: 100%;
+      overflow: hidden;
+      background: linear-gradient(135deg, #fff5f5 0%, #f8e8e8 100%);
+      color: #333;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 5% auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 25px;
+      padding: 3rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      text-align: center;
+      animation: fadeIn 1.4s ease;
+      border: 1px solid rgba(255, 192, 203, 0.3);
+    }
+
+    .header {
+      margin-bottom: 1.5rem;
+    }
+
+    .heart {
+      font-size: 4rem;
+      animation: pulse 2s infinite;
+      color: #ff6b81;
+      text-shadow: 0 0 10px rgba(255, 107, 129, 0.4);
+    }
+
+    h1 {
+      margin: 1rem 0;
+      font-size: 2.5rem;
+      color: #d23669;
+      font-weight: 700;
+      font-family: 'Georgia', serif;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .input-group {
+      margin: 2rem 0;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    input[type="text"] {
+      padding: 1rem;
+      width: 100%;
+      max-width: 350px;
+      font-size: 1.1rem;
+      border: 2px solid #ffcad4;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      transition: all 0.3s;
+      background-color: #fff9fb;
+    }
+
+    input[type="text"]:focus {
+      border-color: #ff6b81;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 107, 129, 0.2);
+    }
+
+    button {
+      padding: 1rem 2rem;
+      background: linear-gradient(to right, #ff6b81, #ff8e9e);
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 1rem;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(255, 107, 129, 0.3);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 129, 0.4);
+    }
+
+    .message {
+      margin-top: 2.5rem;
+      font-size: 1.3rem;
+      line-height: 1.8;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease;
+      background: #fff9fb;
+      padding: 2rem;
+      border-radius: 15px;
+      border-left: 5px solid #ff6b81;
+      text-align: left;
+      font-family: 'Georgia', serif;
+    }
+
+    .message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .signature {
+      font-style: italic;
+      text-align: right;
+      margin-top: 1.5rem;
+      font-size: 1.4rem;
+      color: #d23669;
+      font-weight: bold;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        margin: 10% 5%;
+        padding: 2rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .message {
+        font-size: 1.1rem;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+  <div class="header">
+    <div class="heart floating">❤️</div>
+    <h1>Dedicatoria Especial</h1>
+    <p class="subtitle">Para la mujer más importante de mi vida</p>
+  </div>
+  
+  <div class="input-group">
+    <label for="nombre">Tu nombre:</label>
+    <input type="text" id="nombre" placeholder="¿Cómo te llamas?" />
+    
+    <label for="mama">Nombre de mamá:</label>
+    <input type="text" id="mama" placeholder="¿Cómo se llama tu mamá?" />
+  </div>
+  
+  <button onclick="mostrarMensaje()">Crear mi dedicatoria</button>
+  
+  <div id="mensaje" class="message"></div>
+</div>
+
+<script>
+  function mostrarMensaje() {
+    const nombre = document.getElementById('nombre').value.trim();
+    const mama = document.getElementById('mama').value.trim();
+    const mensaje = document.getElementById('mensaje');
+    
+    if (nombre === "" || mama === "") {
+      mensaje.innerHTML = '';
+      mensaje.classList.remove('show');
+      alert("Por favor, completa ambos nombres para crear tu dedicatoria especial.");
+      return;
+    }
+    
+    const mensajes = [
+      `Querida ${mama},<br><br>
+      Hoy quiero recordarte lo increíble que eres. Eres mi refugio, mi apoyo y mi inspiración. 
+      Cada día agradezco tener una madre tan maravillosa como tú, que me enseña con tu ejemplo 
+      lo que significa amar incondicionalmente.<br><br>
+      Gracias por estar siempre ahí, en los buenos y malos momentos. Eres mi héroe, mi confidente 
+      y mi mejor amiga. Te amo más de lo que las palabras pueden expresar.`,
+      
+      `Mi adorada ${mama},<br><br>
+      No existen palabras suficientes para describir todo lo que significas para mí. Eres el sol 
+      que ilumina mis días oscuros, la mano que me sostiene cuando tropiezo y el corazón que late 
+      por mí incluso cuando no estoy cerca.<br><br>
+      Cada sacrificio que has hecho, cada lágrima que has derramado y cada sonrisa que me has regalado 
+      han formado la persona que soy hoy. Eres simplemente extraordinaria.`,
+      
+      `A la mejor mamá del mundo, ${mama}:<br><br>
+      Hoy quiero decirte que eres perfecta tal como eres. Con tus defectos y virtudes, 
+      con tus días buenos y malos, eres exactamente la madre que necesito y la que amo con todo mi ser.<br><br>
+      Tu amor es mi mayor tesoro, tu sabiduría mi mejor guía y tu presencia mi mayor consuelo. 
+      Espero poder hacerte sentir tan especial como tú me haces sentir cada día.`
+    ];
+    
+    const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
+    
+    mensaje.innerHTML = `
+      ${mensajeAleatorio}
+      <div class="signature">Con todo mi amor,<br>${nombre}</div>
+    `;
+    mensaje.classList.add('show');
+    
+    // Desplazarse suavemente al mensaje
+    mensaje.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Fondo animado de corazones
+  const canvas = document.getElementById("bg");
+  const ctx = canvas.getContext("2d");
+  let particlesArray = [];
+  const heartShape = "❤️";
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 20 + 10;
+      this.speedX = Math.random() * 0.5 - 0.25;
+      this.speedY = Math.random() * 0.5 - 0.25;
+      this.opacity = Math.random() * 0.4 + 0.1;
+      this.rotation = Math.random() * 360;
+      this.rotationSpeed = Math.random() * 0.5 - 0.25;
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.rotation += this.rotationSpeed;
+
+      // Reaparecer en el otro lado si sale del canvas
+      if (this.x > canvas.width + this.size) this.x = -this.size;
+      else if (this.x < -this.size) this.x = canvas.width + this.size;
+      
+      if (this.y > canvas.height + this.size) this.y = -this.size;
+      else if (this.y < -this.size) this.y = canvas.height + this.size;
+    }
+
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotation * Math.PI / 180);
+      ctx.font = `${this.size}px Arial`;
+      ctx.fillStyle = `rgba(255, 107, 129, ${this.opacity})`;
+      ctx.fillText(heartShape, 0, 0);
+      ctx.restore();
+    }
+  }
+
+  function init() {
+    particlesArray = [];
+    for (let i = 0; i < 30; i++) {
+      particlesArray.push(new Particle());
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particlesArray.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  init();
+  animate();
+</script>
+
+</body>
+</html>
